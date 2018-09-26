@@ -18,9 +18,10 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     private val accelerometerReading = FloatArray(3)
     private val magnetometerReading = FloatArray(3)
 
-    private val rotationMatrix = FloatArray(9)
+    private val rM = FloatArray(9)
+    private val iM = FloatArray(9)
     private val orientationAngles = FloatArray(3)
-    private var azimuth : Double = 0.0
+    private var azimuth : Int = 0
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
@@ -34,38 +35,45 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         }
 
         SensorManager.getRotationMatrix(
-                rotationMatrix,
-                null,
+                rM,
+                iM,
                 accelerometerReading,
                 magnetometerReading
         )
 
-        SensorManager.getOrientation(rotationMatrix,orientationAngles)
-        azimuth = 180*orientationAngles[0]/Math.PI
-        textView2.text = "$azimuth"
+        SensorManager.getOrientation(rM,orientationAngles)
+        azimuth = Math.toDegrees((orientationAngles[0].toDouble()+360)%360).toInt()
+        testingTextView.text = "${azimuth}"
 
 
     }
-    /*
+
     fun updateOrientationAngles() {
+
         // Update rotation matrix, which is needed to update orientation angles.
         SensorManager.getRotationMatrix(
-                rotationMatrix,
+                rM,
                 null,
                 accelerometerReading,
                 magnetometerReading
         )
 
-        // "mRotationMatrix" now has up-to-date information.
 
-        SensorManager.getOrientation(rotationMatrix, orientationAngles)
+
+
+        /*
+        // "mrM" now has up-to-date information.
+
+        SensorManager.getOrientation(rM, orientationAngles)
         //Log.d("sensor_testing","${orientationAngles[0]*360}")
-        azimuth = Math.toDegrees(Math.atan(rotationMatrix[1].toDouble()-rotationMatrix[3].toDouble()/
-                (rotationMatrix[0].toDouble()+rotationMatrix[4].toDouble()))).toInt()
+        azimuth = Math.toDegrees(Math.atan(rM[1].toDouble()-rM[3].toDouble()/
+                (rM[0].toDouble()+rM[4].toDouble()))).toInt()
         textView2.text = "$azimuth"
 
-        // "mOrientationAngles" now has up-to-date information.
-    }*/
+        // "mOrientationAngles" now has up-to-date information.*/
+
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,16 +88,14 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             sensorManager.registerListener(
                     this,
                     accelerometer,
-                    SensorManager.SENSOR_DELAY_NORMAL,
-                    SensorManager.SENSOR_DELAY_UI
+                    SensorManager.SENSOR_DELAY_GAME
             )
         }
         sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also { magneticField ->
             sensorManager.registerListener(
                     this,
                     magneticField,
-                    SensorManager.SENSOR_DELAY_NORMAL,
-                    SensorManager.SENSOR_DELAY_UI
+                    SensorManager.SENSOR_DELAY_GAME
             )
         }
     }
