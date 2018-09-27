@@ -3,4 +3,9 @@
     <string name="app_title">Draw By Walking</string>
     <string name="new_button">New canvas</string>
     <string name="load_from_file_button">Load from file</string>
+    <string name="drawview_save_button">Save file</string>
+    <string name="hide_keyboard">Hide keyboard</string>
+    <string name="safe_edittext_hint">Enter filename</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>
