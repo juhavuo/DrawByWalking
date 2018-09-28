@@ -15,5 +15,10 @@ class MainActivity : AppCompatActivity() {
             val intent: Intent = Intent(this,DrawActivity::class.java)
             startActivity(intent)
         }
+
+        load_from_file_button.setOnClickListener {
+            val intent = Intent(this,LoadActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

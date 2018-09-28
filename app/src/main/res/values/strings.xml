@@ -8,4 +8,5 @@
     <string name="safe_edittext_hint">Enter filename</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="loadactivity_title">Load from file</string>
 </resources>
