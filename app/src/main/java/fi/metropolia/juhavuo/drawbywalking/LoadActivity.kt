@@ -3,7 +3,6 @@ package fi.metropolia.juhavuo.drawbywalking
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -18,7 +17,6 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_load.*
 import java.io.File
 import java.lang.Exception
-import java.net.URI
 
 class LoadActivity : AppCompatActivity() {
 
@@ -71,8 +69,8 @@ private class AdapterForLoadList(context: Context, list: MutableList<File>): Bas
         deleteButton.setOnClickListener {
             Log.d("view_test","button in position $position pressed")
             lList[position].delete()
+            lList.removeAt(position)
             notifyDataSetChanged()
-
         }
 
         return loadlist_row
