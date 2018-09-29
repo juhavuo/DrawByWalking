@@ -27,66 +27,28 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     //code source for sensors: https://developer.android.com/guide/topics/sensors/sensors_position
 
     private lateinit var sensorManager: SensorManager
-    private val accelerometerReading = FloatArray(3)
-    private val magnetometerReading = FloatArray(3)
-
-    private val rM = FloatArray(9)
-    private val iM = FloatArray(9)
-    private val orientationAngles = FloatArray(3)
-    private var azimuth : Int = 0
+    private var rotationSensor: Sensor? = null
     private var bitmap: Bitmap? = null
     private var fileName: String? = null
     private val DIRECTORY = Environment.DIRECTORY_PICTURES
+    private var amountOfSteps: Int = 0
+
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
     }
 
     override fun onSensorChanged(event: SensorEvent) {
-        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-            System.arraycopy(event.values, 0, accelerometerReading, 0, accelerometerReading.size)
-        } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
-            System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
+
+        if(event.sensor == rotationSensor){
+            val direction = (event.values[2]+1)*180
+            testingTextView.text = "$direction"
+            //Log.d("view_test","Rotation $direction min $minVal max $maxVal")
         }
 
-        SensorManager.getRotationMatrix(
-                rM,
-                iM,
-                accelerometerReading,
-                magnetometerReading
-        )
-
-        SensorManager.getOrientation(rM,orientationAngles)
-        azimuth = Math.toDegrees((orientationAngles[0].toDouble()+360)%360).toInt()
-        testingTextView.text = "${azimuth}"
-
 
     }
 
-    fun updateOrientationAngles() {
-
-        // Update rotation matrix, which is needed to update orientation angles.
-        SensorManager.getRotationMatrix(
-                rM,
-                null,
-                accelerometerReading,
-                magnetometerReading
-        )
-
-
-        /*
-        // "mrM" now has up-to-date information.
-
-        SensorManager.getOrientation(rM, orientationAngles)
-        //Log.d("sensor_testing","${orientationAngles[0]*360}")
-        azimuth = Math.toDegrees(Math.atan(rM[1].toDouble()-rM[3].toDouble()/
-                (rM[0].toDouble()+rM[4].toDouble()))).toInt()
-        textView2.text = "$azimuth"
-
-        // "mOrientationAngles" now has up-to-date information.*/
-
-
-    }
     fun isExternalStorageUsable(): Boolean{
         return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
     }
@@ -96,6 +58,14 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        Log.d("view_test","rotation sensor $rotationSensor")
+
+
+
+
+
+
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()
             Log.d("view_test","${bitmap!!.width} ${bitmap!!.height}")
@@ -146,27 +116,19 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
-    override fun onResume() {
+    override fun onResume(){
         super.onResume()
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
-            sensorManager.registerListener(
-                    this,
-                    accelerometer,
-                    SensorManager.SENSOR_DELAY_GAME
-            )
+        rotationSensor?.also {
+            sensorManager.registerListener(this,it,SensorManager.SENSOR_DELAY_UI)
         }
-        sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also { magneticField ->
-            sensorManager.registerListener(
-                    this,
-                    magneticField,
-                    SensorManager.SENSOR_DELAY_GAME
-            )
-        }
+
     }
 
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
+
+
 
 }
