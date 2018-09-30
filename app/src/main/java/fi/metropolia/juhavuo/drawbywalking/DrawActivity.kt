@@ -3,7 +3,6 @@ package fi.metropolia.juhavuo.drawbywalking
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -11,8 +10,8 @@ import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.support.v7.app.AlertDialog
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import kotlinx.android.synthetic.main.activity_draw.*
@@ -21,6 +20,7 @@ import kotlinx.android.synthetic.main.save_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlin.math.sqrt
 
 class DrawActivity : AppCompatActivity(), SensorEventListener {
 
@@ -28,10 +28,15 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private var rotationSensor: Sensor? = null
+    private var accelerationSensor: Sensor? = null
     private var bitmap: Bitmap? = null
     private var fileName: String? = null
+    private var direction: Float = 0F
+    private var acceleration: Float = 0F
     private val DIRECTORY = Environment.DIRECTORY_PICTURES
-    private var amountOfSteps: Int = 0
+    private lateinit var viewHandler: Handler
+    private lateinit var updateView:Runnable
+
 
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -41,9 +46,12 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
 
         if(event.sensor == rotationSensor){
-            val direction = (event.values[2]+1)*180
+            direction = (event.values[2]+1)*180
             testingTextView.text = "$direction"
             //Log.d("view_test","Rotation $direction min $minVal max $maxVal")
+        }
+        if(event.sensor == accelerationSensor){
+            acceleration = sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2])
         }
 
 
@@ -59,12 +67,20 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         setContentView(R.layout.activity_draw)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        accelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         Log.d("view_test","rotation sensor $rotationSensor")
 
 
+        viewHandler = Handler()
+        updateView = Runnable{
+            run{
 
-
-
+                //draw_view.getParameters(direction,acceleration)
+                draw_view.changeCoords()
+                draw_view.invalidate()
+                viewHandler.postDelayed(updateView,100)
+            }
+        }
 
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()
@@ -98,6 +114,8 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+
+
     }
 
     fun saveImageToExternalStorage(fname: String){
@@ -118,15 +136,24 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onResume(){
         super.onResume()
+
         rotationSensor?.also {
             sensorManager.registerListener(this,it,SensorManager.SENSOR_DELAY_UI)
         }
+        accelerationSensor?.also {
+            sensorManager.registerListener(this,it,SensorManager.SENSOR_DELAY_UI)
+        }
+
+        viewHandler.post(updateView)
+
 
     }
 
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
+
+        viewHandler.removeCallbacks(updateView)
     }
 
 

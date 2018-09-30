@@ -9,13 +9,27 @@ import android.view.View
 class DrawView(context: Context, attributeSet: AttributeSet): View(context,attributeSet){
 
     var bm: Bitmap? = null
-    val rect = Rect(0,0,200,200)
     val paint = Paint()
+    var direction: Float = 0F
+    var totalAcceleration: Float = 0F
+    var size: Float = 10F
+    var circleX: Float = 0F
+    var circleY: Float = 0F
+    var firstDraw: Boolean = true
+
+
+
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if(firstDraw){
+            circleX = width.toFloat()/2
+            circleY = height.toFloat()/2
+            firstDraw = false
+        }
         paint.color = Color.BLACK
-        canvas.drawRect(rect,paint)
+        canvas.drawCircle(circleX,circleY,size,paint)
     }
 
 
@@ -29,6 +43,21 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         }
 
         return bitmap
+    }
+
+    fun getParameters(dir: Float, totAcc: Float){
+        direction = dir
+        totalAcceleration = totAcc
+    }
+
+    fun setToCenter(){
+        circleX = width.toFloat()/2
+        circleY = height.toFloat()/2
+    }
+
+    fun changeCoords(){
+        circleX += 10F
+        circleY += 10F
     }
 
 }
