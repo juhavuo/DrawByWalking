@@ -12,10 +12,11 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
     val paint = Paint()
     var direction: Float = 0F
     var totalAcceleration: Float = 0F
-    var size: Float = 10F
+    //var size: Float = 10F
     var circleX: Float = 0F
     var circleY: Float = 0F
     var firstDraw: Boolean = true
+    val pointList: MutableList<DrawingPoint> = ArrayList()
 
 
 
@@ -28,8 +29,10 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
             circleY = height.toFloat()/2
             firstDraw = false
         }
-        paint.color = Color.BLACK
-        canvas.drawCircle(circleX,circleY,size,paint)
+        for(circle in pointList){
+            circle.drawPoint(canvas)
+        }
+        //canvas.drawCircle(circleX,circleY,size,paint)
     }
 
 
@@ -50,14 +53,11 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         totalAcceleration = totAcc
     }
 
-    fun setToCenter(){
-        circleX = width.toFloat()/2
-        circleY = height.toFloat()/2
-    }
-
     fun changeCoords(){
-        circleX += 10F
-        circleY += 10F
+        circleX += 2F
+        circleY += 2F
+        paint.color = Color.BLACK
+        pointList.add(DrawingPoint(circleX,circleY,paint))
     }
 
 }

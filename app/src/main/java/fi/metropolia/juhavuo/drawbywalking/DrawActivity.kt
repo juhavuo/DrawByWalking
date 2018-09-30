@@ -78,7 +78,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 //draw_view.getParameters(direction,acceleration)
                 draw_view.changeCoords()
                 draw_view.invalidate()
-                viewHandler.postDelayed(updateView,100)
+                viewHandler.postDelayed(updateView,1000/30)
             }
         }
 
