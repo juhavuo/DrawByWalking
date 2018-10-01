@@ -5,18 +5,22 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 class DrawView(context: Context, attributeSet: AttributeSet): View(context,attributeSet){
 
     var bm: Bitmap? = null
     val paint = Paint()
-    var direction: Float = 0F
-    var totalAcceleration: Float = 0F
+    var dx: Float = 0F
+    var dy: Float = 0F
+    val ratio: Double= 2*PI/360
     //var size: Float = 10F
     var circleX: Float = 0F
     var circleY: Float = 0F
     var firstDraw: Boolean = true
-    val pointList: MutableList<DrawingPoint> = ArrayList()
+    val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
 
 
 
@@ -49,13 +53,18 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
     }
 
     fun getParameters(dir: Float, totAcc: Float){
-        direction = dir
-        totalAcceleration = totAcc
+
+        dx = totAcc * cos(dir*ratio.toFloat())
+        dy = totAcc * sin(dir*ratio.toFloat())
+        paint.color = Color.BLACK
+        circleX+=dx*10
+        circleY+=dy*10
+        pointList.add(DrawingPoint(circleX,circleY,paint))
     }
 
     fun changeCoords(){
-        circleX += 2F
-        circleY += 2F
+        circleX += dx
+        circleY += dy
         paint.color = Color.BLACK
         pointList.add(DrawingPoint(circleX,circleY,paint))
     }

@@ -46,12 +46,15 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
 
         if(event.sensor == rotationSensor){
-            direction = (event.values[2]+1)*180
-            testingTextView.text = "$direction"
+            direction = 360-(event.values[2]+1)*180
             //Log.d("view_test","Rotation $direction min $minVal max $maxVal")
         }
         if(event.sensor == accelerationSensor){
-            acceleration = sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2])
+
+            acceleration = sqrt(event.values[1]*event.values[1])
+            if(acceleration<0.1){
+                acceleration=0F
+            }
         }
 
 
@@ -76,11 +79,15 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             run{
 
                 //draw_view.getParameters(direction,acceleration)
-                draw_view.changeCoords()
-                draw_view.invalidate()
-                viewHandler.postDelayed(updateView,1000/30)
+                if(acceleration>0) {
+                    draw_view.getParameters(direction, acceleration)
+                    draw_view.invalidate()
+                }
+                viewHandler.postDelayed(updateView,100)
             }
         }
+
+
 
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()

@@ -9,4 +9,5 @@
     <string name="dialog_save">Save</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="loadactivity_title">Load from file</string>
+    <string name="share_button">Share</string>
 </resources>
