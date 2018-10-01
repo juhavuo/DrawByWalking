@@ -3,6 +3,7 @@ package fi.metropolia.juhavuo.drawbywalking
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -11,9 +12,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import kotlinx.android.synthetic.main.activity_draw.*
 import kotlinx.android.synthetic.main.activity_draw.view.*
 import kotlinx.android.synthetic.main.save_dialog.view.*
@@ -34,6 +38,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     private var direction: Float = 0F
     private var acceleration: Float = 0F
     private val DIRECTORY = Environment.DIRECTORY_PICTURES
+    private var isDrawing: Boolean = false
     private lateinit var viewHandler: Handler
     private lateinit var updateView:Runnable
 
@@ -68,6 +73,17 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)
+
+        val bundle = intent.extras
+        if(bundle != null){
+            Log.d("view_test","${bundle}")
+            val path: String= this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).path+"/"+bundle.getString("file_name")
+            val file: File = File(path)
+            Log.d("view_test","${file.totalSpace}")
+            bitmap = BitmapFactory.decodeFile(path)
+            draw_view.setBitmap(bitmap!!)
+        }
+
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         accelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
@@ -87,7 +103,20 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+        draw_view.setOnTouchListener{v: View, m: MotionEvent->
 
+            if(isDrawing){
+                draw_activity_layout.setBackgroundColor(ContextCompat.getColor(this,R.color.normal))
+                isDrawing = false
+                viewHandler.removeCallbacks(updateView)
+            }else{
+                draw_activity_layout.setBackgroundColor(ContextCompat.getColor(this,R.color.recording))
+                draw_view.setLocation(m.x,m.y)
+                isDrawing = true
+                viewHandler.post(updateView)
+            }
+            false
+        }
 
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()
@@ -151,7 +180,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             sensorManager.registerListener(this,it,SensorManager.SENSOR_DELAY_UI)
         }
 
-        viewHandler.post(updateView)
 
 
     }

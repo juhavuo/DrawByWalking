@@ -19,7 +19,7 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
     //var size: Float = 10F
     var circleX: Float = 0F
     var circleY: Float = 0F
-    var firstDraw: Boolean = true
+    var timeToSetBitmap: Boolean = false
     val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
 
 
@@ -28,10 +28,10 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if(firstDraw){
-            circleX = width.toFloat()/2
-            circleY = height.toFloat()/2
-            firstDraw = false
+
+        if(timeToSetBitmap){
+            canvas.drawBitmap(bm!!,0F,0F,null)
+            Log.d("view_test","doing the ifs")
         }
         for(circle in pointList){
             circle.drawPoint(canvas)
@@ -62,11 +62,15 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         pointList.add(DrawingPoint(circleX,circleY,paint))
     }
 
-    fun changeCoords(){
-        circleX += dx
-        circleY += dy
-        paint.color = Color.BLACK
-        pointList.add(DrawingPoint(circleX,circleY,paint))
+    fun setLocation(xNew: Float, yNew: Float){
+        circleX = xNew
+        circleY = yNew
+    }
+
+    fun setBitmap(bitmap: Bitmap){
+        bm = bitmap
+        timeToSetBitmap = true
+        //this.setBitmap(bitmap)
     }
 
 }

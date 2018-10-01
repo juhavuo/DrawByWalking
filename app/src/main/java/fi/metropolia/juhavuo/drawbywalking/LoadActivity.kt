@@ -1,6 +1,7 @@
 package fi.metropolia.juhavuo.drawbywalking
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
@@ -30,9 +31,11 @@ class LoadActivity : AppCompatActivity() {
         val loadList: MutableList<File> = storageDirectory.listFiles().toMutableList()
         Log.d("view_test","${loadList.size}")
         load_listview.adapter = AdapterForLoadList(this,loadList)
-
-
-
+        /*
+        load_listview.setOnItemClickListener{
+            parent, view, position, id ->
+            Log.d("view_test","loaded")
+        }*/
 
         loadactivity_cancel_button.setOnClickListener {
             finish()
@@ -63,6 +66,13 @@ private class AdapterForLoadList(context: Context, list: MutableList<File>): Bas
             image_view.setImageBitmap(bitmap)
         }catch (e: Exception){
             Log.e("view_test",e.toString())
+        }
+
+        image_view.setOnClickListener {
+            val intent: Intent = Intent(lContext,DrawActivity::class.java)
+            intent.putExtra("file_name",lList[position].name)
+            lContext.startActivity(intent)
+
         }
 
         val deleteButton = loadlist_row.findViewById<ImageButton>(R.id.loadlist_delete_button)
