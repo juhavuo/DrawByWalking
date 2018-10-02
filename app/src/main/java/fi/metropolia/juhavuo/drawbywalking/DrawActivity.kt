@@ -24,6 +24,8 @@ import kotlinx.android.synthetic.main.save_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.net.URI
+import java.util.*
 import kotlin.math.sqrt
 
 class DrawActivity : AppCompatActivity(), SensorEventListener {
@@ -41,12 +43,11 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     private var isDrawing: Boolean = false
     private lateinit var viewHandler: Handler
     private lateinit var updateView:Runnable
+    private var drawing_batch = 0 //to what shape point belongs to
 
 
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
-
-    }
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent) {
 
@@ -61,8 +62,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 acceleration=0F
             }
         }
-
-
     }
 
     fun isExternalStorageUsable(): Boolean{
@@ -98,7 +97,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
                 //draw_view.getParameters(direction,acceleration)
                 if(acceleration>0) {
-                    draw_view.getParameters(direction, acceleration)
+                    draw_view.getParameters(direction, acceleration,drawing_batch)
                     draw_view.invalidate()
                 }
                 viewHandler.postDelayed(updateView,100)
@@ -113,6 +112,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 viewHandler.removeCallbacks(updateView)
             }else{
                 draw_activity_layout.setBackgroundColor(ContextCompat.getColor(this,R.color.recording))
+                drawing_batch++
                 draw_view.setLocation(m.x,m.y)
                 isDrawing = true
                 viewHandler.post(updateView)
@@ -120,6 +120,8 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             }
             false
         }
+
+
 
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()
@@ -142,6 +144,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                         }
                         alertDialog.dismiss()
                     }
+
                     dialogView.dialog_cancel_button.setOnClickListener {
                         Log.d("view_test","cancel_button_clicked")
                         alertDialog.dismiss()
@@ -155,6 +158,10 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
         go_to_main_activity_button.setOnClickListener {
             popToRoot()
+        }
+
+        remove_points_button.setOnClickListener {
+            draw_view.removeValuesFromPointList()
         }
     }
 

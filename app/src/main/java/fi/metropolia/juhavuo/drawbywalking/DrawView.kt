@@ -43,14 +43,14 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         return bitmap
     }
 
-    fun getParameters(dir: Float, totAcc: Float){
+    fun getParameters(dir: Float, totAcc: Float, batch: Int){
 
         dx = totAcc * cos(dir*ratio.toFloat())
         dy = totAcc * sin(dir*ratio.toFloat())
         paint.color = Color.BLACK
         circleX+=dx*10
         circleY+=dy*10
-        pointList.add(DrawingPoint(circleX,circleY,paint))
+        pointList.add(DrawingPoint(circleX,circleY,paint,batch))
     }
 
     fun setLocation(xNew: Float, yNew: Float){
@@ -62,6 +62,20 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         bm = bitmap
         timeToSetBitmap = true
         //this.setBitmap(bitmap)
+    }
+
+    fun removeValuesFromPointList(){
+        if(pointList.size>0){
+            val removed_batch = pointList[pointList.size-1].drawing_batch
+            var i = pointList.size-1
+            while(i>=0){
+                if(pointList[i].drawing_batch == removed_batch){
+                    pointList.remove(pointList[i])
+                }
+                i--
+            }
+            invalidate()
+        }
     }
 
 }
