@@ -16,14 +16,10 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
     var dx: Float = 0F
     var dy: Float = 0F
     val ratio: Double= 2*PI/360
-    //var size: Float = 10F
     var circleX: Float = 0F
     var circleY: Float = 0F
     var timeToSetBitmap: Boolean = false
     val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
-
-
-
 
 
     override fun onDraw(canvas: Canvas) {
@@ -31,16 +27,11 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
 
         if(timeToSetBitmap){
             canvas.drawBitmap(bm!!,0F,0F,null)
-            Log.d("view_test","doing the ifs")
         }
         for(circle in pointList){
             circle.drawPoint(canvas)
         }
-        //canvas.drawCircle(circleX,circleY,size,paint)
     }
-
-
-
 
     fun saveToBitmap(): Bitmap{
         val bitmap = Bitmap.createBitmap(this.width,this.height,Bitmap.Config.ARGB_8888)

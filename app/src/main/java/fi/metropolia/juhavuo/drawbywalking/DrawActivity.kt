@@ -18,8 +18,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_draw.*
-import kotlinx.android.synthetic.main.activity_draw.view.*
 import kotlinx.android.synthetic.main.save_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
@@ -73,11 +73,14 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        //if one gets here from LoadActivity, the filename is taken from extras and bitmap fetched
         val bundle = intent.extras
         if(bundle != null){
             Log.d("view_test","${bundle}")
             val path: String= this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).path+"/"+bundle.getString("file_name")
+            fileName = bundle.getString("file_name")
             val file: File = File(path)
             Log.d("view_test","${file.totalSpace}")
             bitmap = BitmapFactory.decodeFile(path)
@@ -88,7 +91,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         accelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         Log.d("view_test","rotation sensor $rotationSensor")
-
 
         viewHandler = Handler()
         updateView = Runnable{
@@ -114,6 +116,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 draw_view.setLocation(m.x,m.y)
                 isDrawing = true
                 viewHandler.post(updateView)
+
             }
             false
         }
@@ -125,7 +128,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             val ableToUse = isExternalStorageUsable()
             Log.d("view_test","External storage available: $ableToUse")
             if(ableToUse){
-                if(fileName == null){
+                if(fileName == null){ //if there is no given filename user is prompted to give one
                     val dialogView = LayoutInflater.from(this).inflate(R.layout.save_dialog,null)
                     val builder = AlertDialog.Builder(this)
                             .setView(dialogView)
@@ -144,14 +147,15 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                         alertDialog.dismiss()
                     }
 
-                }else{
+                }else{ //file will be saved with the name it already has
                     saveImageToExternalStorage(fileName!!)
                 }
             }
         }
 
-
-
+        go_to_main_activity_button.setOnClickListener {
+            popToRoot()
+        }
     }
 
     fun saveImageToExternalStorage(fname: String){
@@ -167,7 +171,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         }catch (e: IOException){
             Log.e("view_test",e.toString())
         }
-
     }
 
     override fun onResume(){
@@ -179,9 +182,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         accelerationSensor?.also {
             sensorManager.registerListener(this,it,SensorManager.SENSOR_DELAY_UI)
         }
-
-
-
     }
 
     override fun onPause() {
@@ -191,6 +191,17 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         viewHandler.removeCallbacks(updateView)
     }
 
+    override fun onBackPressed() {
+        popToRoot()
+    }
+
+    //https://stackoverflow.com/questions/2776830/android-moving-back-to-first-activity-on-button-click
+    //to go to main activity even if came to this activity via load activity
+    fun Context.popToRoot(){
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+    }
 
 
 }
