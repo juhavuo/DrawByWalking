@@ -20,12 +20,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_draw.*
+import kotlinx.android.synthetic.main.color_chooser.view.*
 import kotlinx.android.synthetic.main.save_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.net.URI
-import java.util.*
 import kotlin.math.sqrt
 
 class DrawActivity : AppCompatActivity(), SensorEventListener {
@@ -44,8 +43,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var viewHandler: Handler
     private lateinit var updateView:Runnable
     private var drawing_batch = 0 //to what shape point belongs to
-
-
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
@@ -68,7 +65,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)
@@ -84,6 +80,8 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             Log.d("view_test","${file.totalSpace}")
             bitmap = BitmapFactory.decodeFile(path)
             draw_view.setBitmap(bitmap!!)
+        }else{
+            openColorChooserDialog("testing_dialog")
         }
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -120,8 +118,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             }
             false
         }
-
-
 
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()
@@ -208,6 +204,18 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
+    }
+
+    fun openColorChooserDialog(color_string: String){
+        val colorChooserView = LayoutInflater.from(this).inflate(R.layout.color_chooser,null)
+        val builder = AlertDialog.Builder(this)
+                .setView(colorChooserView)
+        val alertDialog = builder.show()
+        colorChooserView.color_chooser_title.text = color_string
+        colorChooserView.button.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
     }
 
 
