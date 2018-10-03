@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -19,7 +20,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_draw.*
+import kotlinx.android.synthetic.main.color_chooser.*
 import kotlinx.android.synthetic.main.color_chooser.view.*
 import kotlinx.android.synthetic.main.save_dialog.view.*
 import java.io.File
@@ -211,8 +214,50 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         val builder = AlertDialog.Builder(this)
                 .setView(colorChooserView)
         val alertDialog = builder.show()
+        var r_value = colorChooserView.seekBar_r.progress
+        var g_value = colorChooserView.seekBar_g.progress
+        var b_value = colorChooserView.seekBar_b.progress
+        colorChooserView.color_preview.setBackgroundColor(Color.rgb(r_value,g_value,b_value))
         colorChooserView.color_chooser_title.text = color_string
+
+        colorChooserView.seekBar_r.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                r_value = progress
+                colorChooserView.color_preview.setBackgroundColor(Color.rgb(r_value,g_value,b_value))
+                colorChooserView.color_preview.invalidate()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        colorChooserView.seekBar_g.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                g_value = progress
+                colorChooserView.color_preview.setBackgroundColor(Color.rgb(r_value,g_value,b_value))
+                colorChooserView.color_preview.invalidate()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        colorChooserView.seekBar_b.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                b_value = progress
+                colorChooserView.color_preview.setBackgroundColor(Color.rgb(r_value,g_value,b_value))
+                colorChooserView.color_preview.invalidate()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         colorChooserView.button.setOnClickListener {
+            Log.d("seekbar_test","$r_value $g_value $b_value")
             alertDialog.dismiss()
         }
 
