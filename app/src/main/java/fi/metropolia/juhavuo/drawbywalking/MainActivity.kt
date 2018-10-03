@@ -11,6 +11,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val mainFragment = MainFragment()
+        fragmentManager.beginTransaction().add(R.id.fragment_holder,mainFragment).commit()
+
+        main_fragment_button.setOnClickListener {
+
+            fragmentManager.beginTransaction().replace(R.id.fragment_holder,mainFragment)
+                    .addToBackStack(null).commit()
+        }
+
+        instrctions_fragment_button.setOnClickListener {
+            val instructionsFragment = InstructionsFragment()
+            fragmentManager.beginTransaction().replace(R.id.fragment_holder,instructionsFragment)
+                    .addToBackStack(null).commit()
+        }
+
         new_button.setOnClickListener {
             val intent: Intent = Intent(this,DrawActivity::class.java)
             startActivity(intent)
