@@ -12,7 +12,7 @@ import kotlin.math.sin
 class DrawView(context: Context, attributeSet: AttributeSet): View(context,attributeSet){
 
     var bm: Bitmap? = null
-    val paint = Paint()
+    //val paint = Paint()
     var color_rgb = Color.BLACK
     private var dx: Float = 0F
     private var dy: Float = 0F
@@ -49,6 +49,7 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
 
         dx = totAcc * cos(dir*ratio.toFloat())
         dy = totAcc * sin(dir*ratio.toFloat())
+        val paint = Paint()
         paint.color = color_rgb
         circleX+=dx*10
         circleY+=dy*10

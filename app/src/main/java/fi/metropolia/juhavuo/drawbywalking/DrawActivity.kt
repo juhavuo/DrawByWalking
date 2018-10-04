@@ -48,6 +48,10 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var viewHandler: Handler
     private lateinit var updateView:Runnable
     private var drawing_batch = 0 //to what shape point belongs to
+    private var pen_r = 0 //keep track of the pen colors
+    private var pen_g = 0// --||--
+    private var pen_b = 0// --||--
+
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
@@ -106,6 +110,8 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 viewHandler.postDelayed(updateView,100)
             }
         }
+
+        pen_color_view.setBackgroundColor(Color.rgb(pen_r,pen_g,pen_b))
 
         draw_view.setOnTouchListener{v: View, m: MotionEvent->
 
@@ -182,7 +188,6 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 Log.d("spinner_test","${spinner_values[position]}")
                 draw_view.changeSize(spinner_values[position].toFloat())
             }
-
         }
     }
 
@@ -231,12 +236,21 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         startActivity(intent)
     }
 
-    fun openColorChooserDialog(color_string: String, option: Int){
+    fun openColorChooserDialog(color_string: String, option: Int){ //option 0 = background color, option 1 = pen color
         var c = 0
         val colorChooserView = LayoutInflater.from(this).inflate(R.layout.color_chooser,null)
         val builder = AlertDialog.Builder(this)
                 .setView(colorChooserView)
         val alertDialog = builder.show()
+        if(option == 0) {
+            colorChooserView.seekBar_r.progress = 100
+            colorChooserView.seekBar_b.progress = 100
+            colorChooserView.seekBar_g.progress = 100
+        }else{
+            colorChooserView.seekBar_r.progress = pen_r
+            colorChooserView.seekBar_g.progress = pen_g
+            colorChooserView.seekBar_b.progress = pen_b
+        }
         var r_value = colorChooserView.seekBar_r.progress
         var g_value = colorChooserView.seekBar_g.progress
         var b_value = colorChooserView.seekBar_b.progress
@@ -286,10 +300,12 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
                 draw_view.setBackgroundColor(c)
             }else if(option == 1){
                 draw_view.changeColor(c)
+                pen_r = r_value
+                pen_g = g_value
+                pen_b = b_value
+                pen_color_view.setBackgroundColor(Color.rgb(r_value,g_value,b_value))
             }
             alertDialog.dismiss()
         }
-
     }
-
 }
