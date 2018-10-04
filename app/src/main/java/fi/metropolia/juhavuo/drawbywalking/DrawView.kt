@@ -13,11 +13,13 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
 
     var bm: Bitmap? = null
     val paint = Paint()
-    var dx: Float = 0F
-    var dy: Float = 0F
+    var color_rgb = Color.BLACK
+    private var dx: Float = 0F
+    private var dy: Float = 0F
     val ratio: Double= 2*PI/360
-    var circleX: Float = 0F
-    var circleY: Float = 0F
+    private var circleX: Float = 0F
+    private var circleY: Float = 0F
+    private var size: Float = 10F
     var timeToSetBitmap: Boolean = false
     val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
 
@@ -47,10 +49,10 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
 
         dx = totAcc * cos(dir*ratio.toFloat())
         dy = totAcc * sin(dir*ratio.toFloat())
-        paint.color = Color.BLACK
+        paint.color = color_rgb
         circleX+=dx*10
         circleY+=dy*10
-        pointList.add(DrawingPoint(circleX,circleY,paint,batch))
+        pointList.add(DrawingPoint(circleX,circleY,size,paint,batch))
     }
 
     fun setLocation(xNew: Float, yNew: Float){
@@ -76,6 +78,14 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
             }
             invalidate()
         }
+    }
+
+    fun changeColor(new_rgb: Int){
+        color_rgb = new_rgb
+    }
+
+    fun changeSize(new_size: Float){
+        size = new_size
     }
 
 }

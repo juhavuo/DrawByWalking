@@ -20,6 +20,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_draw.*
 import kotlinx.android.synthetic.main.color_chooser.*
@@ -84,7 +86,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             bitmap = BitmapFactory.decodeFile(path)
             draw_view.setBitmap(bitmap!!)
         }else{
-            openColorChooserDialog("testing_dialog")
+            openColorChooserDialog("Choose background color",0)
         }
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -120,6 +122,10 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
             }
             false
+        }
+
+        change_drawing_color_button.setOnClickListener {
+            openColorChooserDialog("Choose pen color",1 )
         }
 
         save_button.setOnClickListener {
@@ -161,6 +167,22 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
         remove_points_button.setOnClickListener {
             draw_view.removeValuesFromPointList()
+        }
+
+
+        val spinner_values = IntArray(10 ){it*5+5}.toTypedArray()
+        val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, spinner_values)
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        pen_size_spinner.adapter = adapter
+        draw_view.changeSize(spinner_values[pen_size_spinner.selectedItemPosition].toFloat())
+        pen_size_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Log.d("spinner_test","${spinner_values[position]}")
+                draw_view.changeSize(spinner_values[position].toFloat())
+            }
+
         }
     }
 
@@ -209,7 +231,8 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         startActivity(intent)
     }
 
-    fun openColorChooserDialog(color_string: String){
+    fun openColorChooserDialog(color_string: String, option: Int){
+        var c = 0
         val colorChooserView = LayoutInflater.from(this).inflate(R.layout.color_chooser,null)
         val builder = AlertDialog.Builder(this)
                 .setView(colorChooserView)
@@ -258,10 +281,15 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
 
         colorChooserView.button.setOnClickListener {
             Log.d("seekbar_test","$r_value $g_value $b_value")
+            c = Color.rgb(r_value,g_value,b_value)
+            if(option == 0) {
+                draw_view.setBackgroundColor(c)
+            }else if(option == 1){
+                draw_view.changeColor(c)
+            }
             alertDialog.dismiss()
         }
 
     }
-
 
 }

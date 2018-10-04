@@ -17,8 +17,8 @@
         android:background="#CCCCCC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/go_to_main_activity_button"
+        app:layout_constraintBottom_toTopOf="@id/change_drawing_color_button"
          />
 
     <Button
@@ -29,8 +29,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/drawview_save_button"
         app:layout_constraintBottom_toBottomOf="@id/go_to_main_activity_button"
-        app:layout_constraintEnd_toStartOf="@+id/go_to_main_activity_button"
-        app:layout_constraintStart_toEndOf="@+id/remove_points_button" />
+        app:layout_constraintEnd_toStartOf="@id/go_to_main_activity_button"
+        app:layout_constraintStart_toEndOf="@id/remove_points_button" />
 
     <ImageButton
         android:id="@+id/go_to_main_activity_button"
@@ -51,6 +51,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_revert" />
+
+    <Button
+        android:id="@+id/change_drawing_color_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Change color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/change_size_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Pen size"
+        app:layout_constraintBottom_toBottomOf="@id/change_drawing_color_button"
+        app:layout_constraintTop_toTopOf="@id/change_drawing_color_button"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/change_drawing_color_button" />
+
+    <Spinner
+        android:id="@+id/pen_size_spinner"
+        android:layout_width="165dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/change_size_textview"
+        app:layout_constraintTop_toBottomOf="@+id/draw_view"
+        />
 
 
 </android.support.constraint.ConstraintLayout>
