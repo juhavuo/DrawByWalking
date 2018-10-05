@@ -3,6 +3,8 @@ package fi.metropolia.juhavuo.drawbywalking
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -25,6 +27,7 @@ class CameraActivity : AppCompatActivity() {
     var imageFile: File? = null
     var ready_for_photo = false
     var ready_to_proceed = false
+    var bitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +52,9 @@ class CameraActivity : AppCompatActivity() {
         take_photo_button.setOnClickListener {
             if(ready_for_photo){
                 Log.d("photo_test","Ready for picture_taking")
+                if(imageFile!=null){
+                    imageFile!!.delete()
+                }
                 imageFile=File.createTempFile(filename,extension,imagePath)
                 imageURI = FileProvider.getUriForFile(this,"fi.metropolia.juhavuo.drawbywalking",imageFile!!)
                 mCurrentPhotoPath = imageFile!!.absolutePath
@@ -65,17 +71,31 @@ class CameraActivity : AppCompatActivity() {
         }
 
         camera_activity_cancel_button.setOnClickListener {
+            if(imageFile!=null){
+                imageFile!!.delete()
+            }
             finish()
+        }
+
+        camera_activity_proceed_button.setOnClickListener {
+            if(ready_to_proceed && imageFile!=null){
+                val intent: Intent = Intent(this,DrawActivity::class.java)
+                intent.putExtra("file_name",imageFile!!.name)
+                startActivity(intent)
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode==REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
             Log.d("photo_test","jippii")
+            bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath)
+            camera_result_view.setImageBitmap(bitmap)
             ready_to_proceed = true
         }else{
             Log.d("photo_test","${imageFile?.name}")
             imageFile?.delete()
+            ready_to_proceed=false
         }
     }
 }
