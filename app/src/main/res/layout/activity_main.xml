@@ -65,5 +65,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
+    <Button
+        android:id="@+id/to_camera_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Take photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/load_from_file_button"
+        app:layout_constraintStart_toEndOf="@+id/new_button" />
+
 
 </android.support.constraint.ConstraintLayout>

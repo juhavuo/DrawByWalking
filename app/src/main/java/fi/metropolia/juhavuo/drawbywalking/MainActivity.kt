@@ -35,5 +35,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,LoadActivity::class.java)
             startActivity(intent)
         }
+
+        to_camera_activity_button.setOnClickListener {
+            val intent = Intent(this,CameraActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

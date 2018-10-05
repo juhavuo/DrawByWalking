@@ -24,7 +24,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_draw.*
-import kotlinx.android.synthetic.main.color_chooser.*
 import kotlinx.android.synthetic.main.color_chooser.view.*
 import kotlinx.android.synthetic.main.save_dialog.view.*
 import java.io.File
