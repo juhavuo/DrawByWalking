@@ -3,6 +3,7 @@ package fi.metropolia.juhavuo.drawbywalking
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -12,6 +13,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val actionBar = supportActionBar
+        Log.d("action_bar","$actionBar")
+        actionBar?.hide()
 
         val mainFragment = MainFragment()
         fragmentManager.beginTransaction().add(R.id.fragment_holder,mainFragment).commit()

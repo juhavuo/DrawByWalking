@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import java.io.InputStream
 import java.lang.Exception
 
@@ -15,9 +16,9 @@ class InstructionsFragment: Fragment(){
 
 
         val view = inflater!!.inflate(R.layout.fragment_instructions,container,false)
-        val editText = view.findViewById<EditText>(R.id.instructions_et)
-        editText.setText(getTheText())
-        editText.keyListener=null
+        val editText = view.findViewById<TextView>(R.id.instructions_et)
+        editText.text = getTheText()
+        //editText.keyListener=null
         return view
     }
 
