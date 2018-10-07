@@ -7,6 +7,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var viewing_main = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -14,16 +16,26 @@ class MainActivity : AppCompatActivity() {
         val mainFragment = MainFragment()
         fragmentManager.beginTransaction().add(R.id.fragment_holder,mainFragment).commit()
 
+        /*
         main_fragment_button.setOnClickListener {
 
             fragmentManager.beginTransaction().replace(R.id.fragment_holder,mainFragment)
                     .addToBackStack(null).commit()
-        }
+        }*/
 
         instrctions_fragment_button.setOnClickListener {
-            val instructionsFragment = InstructionsFragment()
-            fragmentManager.beginTransaction().replace(R.id.fragment_holder,instructionsFragment)
-                    .addToBackStack(null).commit()
+            if(viewing_main) {
+                val instructionsFragment = InstructionsFragment()
+                fragmentManager.beginTransaction().replace(R.id.fragment_holder, instructionsFragment)
+                        .addToBackStack(null).commit()
+                instrctions_fragment_button.text = getString(R.string.main_activity_fragment_main)
+                viewing_main = false
+            }else{
+                fragmentManager.beginTransaction().replace(R.id.fragment_holder,mainFragment)
+                        .addToBackStack(null).commit()
+                instrctions_fragment_button.text = getString(R.string.main_activity_fragment_instructions)
+                viewing_main = true
+            }
         }
 
         new_button.setOnClickListener {

@@ -11,4 +11,6 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="loadactivity_title">Load from file</string>
     <string name="share_button">Share</string>
+    <string name="main_activity_fragment_instructions">Instructions</string>
+    <string name="main_activity_fragment_main">Main</string>
 </resources>
