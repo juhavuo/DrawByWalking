@@ -1,1 +1,7 @@
 Draw by walking uses sensors to detect movement and this way makes it possible to draw by walking.
+
+In main page one can select new canvas to start anew, take photo if one wants photo as background or load from file.
+
+Drawing: one taps screen to position one wants to draw. One way to draw is to keep phone steadily and then just start to walk. By tapping draw view agein, one deactivates dreawing view.
+
+One can change pen color and size and save drawing. First time saving one must give a filename.

@@ -6,6 +6,7 @@
     <string name="drawview_save_button">Save file</string>
     <string name="hide_keyboard">Hide keyboard</string>
     <string name="safe_edittext_hint">Enter filename</string>
+    <string name="save_dialog_save_textview">Save</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="loadactivity_title">Load from file</string>
