@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
+/*
+    Main activity has to fragments, one to show title image of this application and the other to
+    show instructions. From this activity one can get to three different activities, CameraActivity
+    if one chooses draw on photo, LoadActivity if one chooses Load from file and to DrawActivity if
+    one chooses new canvas.
+ */
 class MainActivity : AppCompatActivity() {
 
     private var viewing_main = true

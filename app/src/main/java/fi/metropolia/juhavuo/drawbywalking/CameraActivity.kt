@@ -29,6 +29,12 @@ class CameraActivity : AppCompatActivity() {
     private var ready_to_proceed = false
     private var bitmap: Bitmap? = null
 
+    /*
+       This activity takes care of taking photo to serve as background in DrawActivity.
+       When going from this activity to DrawActivity, in intent there is filename as extras
+       Only way to save photo to filesystem is to press save and proceed, othervice file will be
+       removed
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
@@ -95,6 +101,14 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    //now no extra files left in file system, even when back button is pressed
+    override fun onBackPressed() {
+        if(imageFile!=null){
+            imageFile!!.delete()
+        }
+        finish()
+    }
+
     /*
         If one accepts photo from camera app, it will be saved, otherwise, file will be distroyed
         so that no empty files will stay
@@ -109,4 +123,5 @@ class CameraActivity : AppCompatActivity() {
             ready_to_proceed=false
         }
     }
+
 }

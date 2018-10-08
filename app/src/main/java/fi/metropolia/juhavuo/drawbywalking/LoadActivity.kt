@@ -19,9 +19,11 @@ import kotlinx.android.synthetic.main.activity_load.*
 import java.io.File
 import java.lang.Exception
 
+/*
+    LoadActivity shows drawings, that can be chosen as list. One can delete drawings
+    If one chooses one drawing, in intent is put filename as extra to be used in drawing activity
+ */
 class LoadActivity : AppCompatActivity() {
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,9 @@ class LoadActivity : AppCompatActivity() {
     }
 }
 
+/*
+    Adapter for listview to show files
+ */
 private class AdapterForLoadList(context: Context, list: MutableList<File>): BaseAdapter(){
 
     private val lList: MutableList<File> = list

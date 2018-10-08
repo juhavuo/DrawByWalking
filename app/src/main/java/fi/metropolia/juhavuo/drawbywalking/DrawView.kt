@@ -9,6 +9,10 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
+/*
+    Custom view to show drawing. One can set bitmap to view so that one can load drawing from file or
+    use photo as background. 
+ */
 class DrawView(context: Context, attributeSet: AttributeSet): View(context,attributeSet){
 
     var bm: Bitmap? = null
@@ -56,6 +60,9 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         pointList.add(DrawingPoint(circleX,circleY,size,paint,batch))
     }
 
+    /*
+        Sets locations, needed to use, when one presses view to start drawing
+     */
     fun setLocation(xNew: Float, yNew: Float){
         circleX = xNew
         circleY = yNew

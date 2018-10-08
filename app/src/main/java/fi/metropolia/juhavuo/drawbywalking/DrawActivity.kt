@@ -34,8 +34,11 @@ import kotlin.math.sqrt
 class
 DrawActivity : AppCompatActivity(), SensorEventListener {
 
-    //code source for sensors: https://developer.android.com/guide/topics/sensors/sensors_position
 
+    /*
+        This is where the drawing is done. One can choose pen size, drawing color, to save file
+        and to exit from activity. This uses rotation and acceleration sensor
+     */
     private lateinit var sensorManager: SensorManager
     private var rotationSensor: Sensor? = null
     private var accelerationSensor: Sensor? = null
@@ -79,7 +82,8 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
         setContentView(R.layout.activity_draw)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        //if one gets here from LoadActivity, the filename is taken from extras and bitmap fetched
+        //if one gets here from LoadActivity or CameraActivity, the filename is taken from extras and bitmap fetched
+        //otherwise dialog about background color is shown
         val bundle = intent.extras
         if(bundle != null){
             Log.d("view_test","${bundle}")
@@ -98,6 +102,7 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
         accelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         Log.d("view_test","rotation sensor $rotationSensor")
 
+        //handler is needed to update the drawing view
         viewHandler = Handler()
         updateView = Runnable{
             run{
@@ -114,6 +119,10 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
         //set original color to pen display view
         pen_color_view.setBackgroundColor(Color.rgb(pen_r,pen_g,pen_b))
 
+        //If the drawing view is in passive mode and one touches it, it detects touching point
+        //and sets this as starting point of drawing and starts to update view regurarly (active mode)
+        //If the drawing view is in active mode and one touches it, it goes to passive mode and stops to
+        //update the view
         draw_view.setOnTouchListener{v: View, m: MotionEvent->
 
             if(isDrawing){
@@ -135,6 +144,8 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
             openColorChooserDialog("Choose pen color",1 )
         }
 
+        //if one saves file that has no given name, name is asked in dialog
+        //otherwise the file is saved immidiately
         save_button.setOnClickListener {
             bitmap = draw_view.saveToBitmap()
             Log.d("view_test","${bitmap!!.width} ${bitmap!!.height}")
@@ -168,6 +179,7 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+        //goes to main activity without saving view, one looses unsaved changes
         go_to_main_activity_button.setOnClickListener {
             popToRoot()
         }
@@ -176,7 +188,9 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
             draw_view.removeValuesFromPointList()
         }
 
-
+        /*
+            Pen size spinner implementation. One can choose pen size from 5 to 50, in interval of 5
+         */
         val spinner_values = IntArray(10 ){it*5+5}.toTypedArray() //set values for pen size
         val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, spinner_values)
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
@@ -192,6 +206,9 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    /*
+        Function with which one can save file to external storage, PHOTOS section, with name given as parameter
+     */
     fun saveImageToExternalStorage(fname: String){
         Log.d("view_test",fname)
         val storageDir = getExternalFilesDir(DIRECTORY).toString()
@@ -231,6 +248,8 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
         viewHandler.removeCallbacks(updateView)
     }
 
+    //So that by pressing back button always brings one to the main activity
+    //one looses unsaved changes
     override fun onBackPressed() {
         popToRoot()
     }
@@ -245,6 +264,7 @@ DrawActivity : AppCompatActivity(), SensorEventListener {
 
     /*
         This creates popup dialog, where one can set color with three seekbars and which has color preview
+        There is OK button to accept the color
      */
     fun openColorChooserDialog(color_string: String, option: Int){ //option 0 = background color, option 1 = pen color
         var c = 0

@@ -3,6 +3,11 @@ package fi.metropolia.juhavuo.drawbywalking
 import android.graphics.Canvas
 import android.graphics.Paint
 
+/*
+    Drawing point is used to store information about point in path drawn by movement
+    Parameters needed are coordinates x and y, size of pen, drawing color information an Paint object
+    and batch number to keep track, what points are removed, when undo button is pressed
+ */
 class DrawingPoint(x: Float, y: Float,size: Float, p: Paint, batch: Int){
 
     var xPoint: Float = x

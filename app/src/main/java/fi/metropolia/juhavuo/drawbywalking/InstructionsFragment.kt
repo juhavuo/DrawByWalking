@@ -12,6 +12,9 @@ import java.lang.Exception
 
 class InstructionsFragment: Fragment(){
 
+    /*
+        This fragment is used to show instructions in Main Activity
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
 
