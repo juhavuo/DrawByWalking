@@ -31,11 +31,7 @@ class LoadActivity : AppCompatActivity() {
         val loadList: MutableList<File> = storageDirectory.listFiles().toMutableList()
         Log.d("view_test","${loadList.size}")
         load_listview.adapter = AdapterForLoadList(this,loadList)
-        /*
-        load_listview.setOnItemClickListener{
-            parent, view, position, id ->
-            Log.d("view_test","loaded")
-        }*/
+
 
         loadactivity_cancel_button.setOnClickListener {
             finish()

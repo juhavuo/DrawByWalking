@@ -18,16 +18,12 @@ class MainActivity : AppCompatActivity() {
         Log.d("action_bar","$actionBar")
         actionBar?.hide()
 
-        val mainFragment = MainFragment()
+        val mainFragment = MainFragment() //at first main fragment is visible
         fragmentManager.beginTransaction().add(R.id.fragment_holder,mainFragment).commit()
 
         /*
-        main_fragment_button.setOnClickListener {
-
-            fragmentManager.beginTransaction().replace(R.id.fragment_holder,mainFragment)
-                    .addToBackStack(null).commit()
-        }*/
-
+            One can switch between fragments using one button, it changes its label, when pressing it.
+         */
         instrctions_fragment_button.setOnClickListener {
             if(viewing_main) {
                 val instructionsFragment = InstructionsFragment()

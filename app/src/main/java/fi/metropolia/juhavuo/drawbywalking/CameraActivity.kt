@@ -19,15 +19,15 @@ import java.io.File
 
 class CameraActivity : AppCompatActivity() {
 
-    var filename: String = "temp_photo" //default filename, if user don't write one
-    val extension: String = ".jpg"
-    var mCurrentPhotoPath: String = ""
-    val REQUEST_IMAGE_CAPTURE = 1
-    var imageURI: Uri? = null
-    var imageFile: File? = null
-    var ready_for_photo = false
-    var ready_to_proceed = false
-    var bitmap: Bitmap? = null
+    private var filename: String = "temp_photo" //default filename, if user don't write one
+    private val extension: String = ".jpg"
+    private var mCurrentPhotoPath: String = ""
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private var imageURI: Uri? = null
+    private var imageFile: File? = null
+    private var ready_for_photo = false
+    private var ready_to_proceed = false
+    private var bitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +49,9 @@ class CameraActivity : AppCompatActivity() {
             inputManager.hideSoftInputFromWindow(currentFocus.windowToken,InputMethodManager.SHOW_FORCED)
         }
 
+        /*
+            If one tries to take other photo on same session, first will be lost
+         */
         take_photo_button.setOnClickListener {
             if(ready_for_photo){
                 Log.d("photo_test","Ready for picture_taking")
@@ -70,6 +73,9 @@ class CameraActivity : AppCompatActivity() {
             }
         }
 
+        /*
+            If one press cancel, taken photo will not be savad
+         */
         camera_activity_cancel_button.setOnClickListener {
             if(imageFile!=null){
                 imageFile!!.delete()
@@ -77,6 +83,9 @@ class CameraActivity : AppCompatActivity() {
             finish()
         }
 
+        /*
+            Move to draw app. This is only way to keep taken photo
+         */
         camera_activity_proceed_button.setOnClickListener {
             if(ready_to_proceed && imageFile!=null){
                 val intent: Intent = Intent(this,DrawActivity::class.java)
@@ -86,14 +95,16 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    /*
+        If one accepts photo from camera app, it will be saved, otherwise, file will be distroyed
+        so that no empty files will stay
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode==REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
-            Log.d("photo_test","jippii")
             bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath)
             camera_result_view.setImageBitmap(bitmap)
             ready_to_proceed = true
         }else{
-            Log.d("photo_test","${imageFile?.name}")
             imageFile?.delete()
             ready_to_proceed=false
         }

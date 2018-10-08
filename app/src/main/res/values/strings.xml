@@ -14,4 +14,5 @@
     <string name="main_activity_fragment_instructions">Instructions</string>
     <string name="main_activity_fragment_main">Main</string>
     <string name="instruction_fragment_title">DrawByWalking instructions</string>
+    <string name="main_activity_photo_button">Draw on photo</string>
 </resources>

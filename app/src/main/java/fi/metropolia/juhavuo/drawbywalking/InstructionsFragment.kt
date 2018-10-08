@@ -22,6 +22,7 @@ class InstructionsFragment: Fragment(){
         return view
     }
 
+    //To obtain the instructions text located in raw folder
     fun getTheText():String{
         var text = ""
         try{

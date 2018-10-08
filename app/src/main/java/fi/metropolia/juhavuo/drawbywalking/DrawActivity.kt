@@ -31,7 +31,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import kotlin.math.sqrt
 
-class DrawActivity : AppCompatActivity(), SensorEventListener {
+class
+DrawActivity : AppCompatActivity(), SensorEventListener {
 
     //code source for sensors: https://developer.android.com/guide/topics/sensors/sensors_position
 
@@ -110,6 +111,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+        //set original color to pen display view
         pen_color_view.setBackgroundColor(Color.rgb(pen_r,pen_g,pen_b))
 
         draw_view.setOnTouchListener{v: View, m: MotionEvent->
@@ -175,7 +177,7 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        val spinner_values = IntArray(10 ){it*5+5}.toTypedArray()
+        val spinner_values = IntArray(10 ){it*5+5}.toTypedArray() //set values for pen size
         val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, spinner_values)
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         pen_size_spinner.adapter = adapter
@@ -205,6 +207,9 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    /*
+        Start sensors, when activity restarts
+     */
     override fun onResume(){
         super.onResume()
 
@@ -216,6 +221,9 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    /*
+        When activity pauses, sensors are deactivated
+     */
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
@@ -235,6 +243,9 @@ class DrawActivity : AppCompatActivity(), SensorEventListener {
         startActivity(intent)
     }
 
+    /*
+        This creates popup dialog, where one can set color with three seekbars and which has color preview
+     */
     fun openColorChooserDialog(color_string: String, option: Int){ //option 0 = background color, option 1 = pen color
         var c = 0
         val colorChooserView = LayoutInflater.from(this).inflate(R.layout.color_chooser,null)
