@@ -14,6 +14,8 @@ In load activity one can see all possible files to load in the list view. One ch
 
 To load activity one came from three activities. If one comes directly from main activity, one must first choose background color. Otherwise the bitmap will be loaded using filename, that is obtained from intents extras. In draw activity one can change pen color and pen size. All color changing dialogs are using alert dialog with three seek bars and view for previewing the color. There is OK button to accept the color.
 
+<img src="http://users.metropolia.fi/~juhavuo/images/2018_10_10_01_25_39.png" title="main_activity" width="200">
+
 One presses the drawing view, when wants to start drawing. One draws by movement. Acceleration sensors is sensing movement in phones in axes in direction of phones longer side. Rotation of phone is detected by rotation sensor and that decides to what direction is drawn and the acceleration sensor decides how much is drawn. When one presses another time draw view drawing stops.
 One can save a file. If file has already name when one presses save button it saves with same name. If file has jet no name (first save when came directly from main activity by pressing new canvas button), the save file dialog will open and one can insert file name and save or one can also cancel the action.
 
