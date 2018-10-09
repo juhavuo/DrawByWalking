@@ -11,7 +11,8 @@ import kotlin.math.sin
 
 /*
     Custom view to show drawing. One can set bitmap to view so that one can load drawing from file or
-    use photo as background. 
+    use photo as background. Drawing uses circles as shape and information of this is stored in
+    DrawingPoint mutable list. From the list elements can be removed one batch at a time
  */
 class DrawView(context: Context, attributeSet: AttributeSet): View(context,attributeSet){
 
@@ -27,7 +28,10 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
     var timeToSetBitmap: Boolean = false
     val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
 
-
+    /*
+        Responsible for graphics of view, draws all pointList elements and when necessery, the bitmap
+        so that the loaded content can be shown
+     */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -39,16 +43,21 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         }
     }
 
+    /*
+        Needed in saving the contents of drawing view
+     */
     fun saveToBitmap(): Bitmap{
         val bitmap = Bitmap.createBitmap(this.width,this.height,Bitmap.Config.ARGB_8888)
         Canvas(bitmap).apply {
             background?.draw(this) ?: this.drawColor(Color.WHITE)
             draw(this)
         }
-
         return bitmap
     }
 
+    /*
+        Add points to draw and obtain parameter for drawing
+     */
     fun getParameters(dir: Float, totAcc: Float, batch: Int){
 
         dx = totAcc * cos(dir*ratio.toFloat())
@@ -74,6 +83,9 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
         //this.setBitmap(bitmap)
     }
 
+    /*
+        Removes the latest batch 
+     */
     fun removeValuesFromPointList(){
         if(pointList.size>0){
             val removed_batch = pointList[pointList.size-1].drawing_batch
