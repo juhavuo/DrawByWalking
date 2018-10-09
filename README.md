@@ -21,6 +21,8 @@ One can save a file. If file has already name when one presses save button it sa
 
 If one presses devices back button or close button one goes directly to main activity without saving the file. From draw activity one can go only to main activity no matter what way one has got into draw activity.
 
+<img src="http://users.metropolia.fi/~juhavuo/images/2018_10_10_01_25_55.png" title="main_activity" width="200">
+
 Accessibility
 
 Accessibility was checked with scanner. Scannings resulted notes about button size, that they could be increased a bit. In some buttons and in draw view pen size label it was stated, that contrast ratio between text and background could be larger. There were notes about image buttons, that they don't have descriptions for readers.
