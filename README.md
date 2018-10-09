@@ -4,7 +4,7 @@ Draw by walking is application for Android phones and tables with minimum SDK se
 
 Main activity uses fragments to show application title image or instructions. From main activity one gets to three different Activities. If one chooses new canvas, one goes to draw activity. If one chooses draw on photo, one goes to camera activity. If one chooses load from file, one goes to load activity.
 
-![main_activity_screenshot](http://users.metropolia.fi/~juhavuo/images/2018_10_10_01_22_19.png|width=200)
+![main_activity_screenshot](http://users.metropolia.fi/~juhavuo/images/2018_10_10_01_22_19.png | width=200)
 
 In camera activity one must write down file name that must be at least four characters long, then one can take the photo using external camera application. This file is saved after this, but will be removed if one chooses to take another photo or press cancel button or uses phones back button, file will be removed. Only way to keep file is to press save and proceed to go to draw view. From camera activity one can go to draw activity or come back to main activity.
 
