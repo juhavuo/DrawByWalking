@@ -84,7 +84,7 @@ class DrawView(context: Context, attributeSet: AttributeSet): View(context,attri
     }
 
     /*
-        Removes the latest batch 
+        Removes the latest batch
      */
     fun removeValuesFromPointList(){
         if(pointList.size>0){

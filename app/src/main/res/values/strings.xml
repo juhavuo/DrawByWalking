@@ -16,4 +16,9 @@
     <string name="instruction_fragment_title">DrawByWalking instructions</string>
     <string name="main_activity_photo_button">Draw on photo</string>
     <string name="camera_activity_proceed_button">Save and proceed</string>
+    <string name="camera_activity_choose_filename">Use filename</string>
+    <string name="camera_activity_take_photo">Take photo</string>
+    <string name="camera_activity_filename_here">Filename here</string>
+    <string name="camera_activity_image_description">Photo thumbnail here</string>
+    <string name="camera_activity_edittext_autofillhint">Filename</string>
 </resources>
