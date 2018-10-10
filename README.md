@@ -10,9 +10,9 @@ In camera activity one must write down file name that must be at least four char
 
 <img src="http://users.metropolia.fi/~juhavuo/images/2018_10_10_01_24_37.png" title="main_activity" width="200">
 
-In load activity one can see all possible files to load in the list view. One chooses the file by pressing the image of the file, one can also remove the file by pressing the trash can symbol. One can back away using cancel button. From load activity one can go to draw activity or come back to main activity.
+In load activity one can see all possible files to load in the list view. One chooses the file by pressing the image of the file, one can also remove the file by pressing the trash can symbol. One can back away using cancel button. From load activity one can go to draw activity or come back to main activity. Cancel button is located at the same position as it is located in camera application to make use of it more confortable.
 
-<img src="http://users.metropolia.fi/~juhavuo/images/2018_10_10_01_25_39.png" title="main_activity" width="200">
+<img src="http://users.metropolia.fi/~juhavuo/images/2018_10_10_12_10_24.png" title="main_activity" width="200">
 
 To draw activity one can come from three activities. If one comes directly from main activity, one must first choose background color. Otherwise the bitmap will be loaded using filename, that is obtained from intents extras. In draw activity one can change pen color and pen size. All color changing dialogs are using alert dialog with three seek bars and view for previewing the color. There is OK button to accept the color.
 
