@@ -76,6 +76,7 @@
         app:layout_constraintEnd_toStartOf="@id/color_preview"
         android:max="255"
         android:progress="100"
+        android:contentDescription="@string/color_chooser_seekbar_r_description"
         />
 
     <SeekBar
@@ -90,7 +91,8 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar_r"
         app:layout_constraintEnd_toStartOf="@id/color_preview"
         android:max="255"
-        android:progress="100"/>
+        android:progress="100"
+        android:contentDescription="@string/color_chooser_seekbar_g_description"/>
 
     <SeekBar
         android:id="@+id/seekBar_b"
@@ -104,7 +106,8 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar_g"
         app:layout_constraintEnd_toStartOf="@id/color_preview"
         android:max="255"
-        android:progress="100"/>
+        android:progress="100"
+        android:contentDescription="@string/color_chooser_seekbar_b_description" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"

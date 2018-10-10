@@ -21,4 +21,9 @@
     <string name="camera_activity_filename_here">Filename here</string>
     <string name="camera_activity_image_description">Photo thumbnail here</string>
     <string name="camera_activity_edittext_autofillhint">Filename</string>
+    <string name="load_file_row_image_description">Choose file to load</string>
+    <string name="load_file_row_delete_button_description">Delete file</string>
+    <string name="color_chooser_seekbar_r_description">Seek bar for red</string>
+    <string name="color_chooser_seekbar_g_description">Seek bar for green</string>
+    <string name="color_chooser_seekbar_b_description">Seek bar for blue</string>
 </resources>

@@ -3,6 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="normal">#AAAAAA</color>
+    <color name="normal">#DDDDDD</color>
     <color name="recording">#55FF55</color>
 </resources>
