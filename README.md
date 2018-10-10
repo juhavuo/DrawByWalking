@@ -33,16 +33,16 @@ What was done. Descriptions for imagebutton was added. Resolutions were changed.
 
 Examples:
 
-Item label
-fi.metropolia.juhavuo.drawbywalking:id/imageView
-This item may not have a label readable by screen readers.
+Item label<br>
+fi.metropolia.juhavuo.drawbywalking:id/imageView<br>
+This item may not have a label readable by screen readers.<br>
 
-Text contrast
-fi.metropolia.juhavuo.drawbywalking:id/file_name_edittext
-The item's text contrast ratio is 3.33. This ratio is based on an estimated foreground colour of #FF4081 and an estimated background colour of #FFFFFF. Consider using a contrast ratio greater than 4.50 for small text or 3.00 for large text.
+Text contrast<br>
+fi.metropolia.juhavuo.drawbywalking:id/file_name_edittext<br>
+The item's text contrast ratio is 3.33. This ratio is based on an estimated foreground colour of #FF4081 and an estimated background colour of #FFFFFF. Consider using a contrast ratio greater than 4.50 for small text or 3.00 for large text.<br>
 
-Touch target
-fi.metropolia.juhavuo.drawbywalking:id/camera_activity_hide_keyboard_button
-This item's height is 41dp. Consider making the height of this touch target 48dp or larger.
+Touch target<br>
+fi.metropolia.juhavuo.drawbywalking:id/camera_activity_hide_keyboard_button<br>
+This item's height is 41dp. Consider making the height of this touch target 48dp or larger.<br>
 
 
