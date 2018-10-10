@@ -28,3 +28,5 @@ Accessibility
 Accessibility was checked with scanner. Scannings resulted notes about button size, that they could be increased a bit. In some buttons and in draw view pen size label it was stated, that contrast ratio between text and background could be larger. There were notes about image buttons, that they don't have descriptions for readers.
 
 What was done. Descriptions for imagebutton was added. Resolutions were changed. Button sizes was left the same. Adjusting of those could lead to problems with layout on smaller devices.
+
+<img src="http://users.metropolia.fi/~juhavuo/images/UI_problems.jpg" title="main_activity" width="1000">
