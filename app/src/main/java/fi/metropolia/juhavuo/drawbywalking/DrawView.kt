@@ -16,17 +16,16 @@ import kotlin.math.sin
  */
 class DrawView(context: Context, attributeSet: AttributeSet): View(context,attributeSet){
 
-    var bm: Bitmap? = null
-    //val paint = Paint()
-    var color_rgb = Color.BLACK
+    private var bm: Bitmap? = null
+    private var color_rgb = Color.BLACK
     private var dx: Float = 0F
     private var dy: Float = 0F
-    val ratio: Double= 2*PI/360
+    private val ratio: Double= 2*PI/360
     private var circleX: Float = 0F
     private var circleY: Float = 0F
     private var size: Float = 10F
-    var timeToSetBitmap: Boolean = false
-    val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
+    private var timeToSetBitmap: Boolean = false
+    private val pointList: MutableList<DrawingPoint> = java.util.ArrayList()
 
     /*
         Responsible for graphics of view, draws all pointList elements and when necessery, the bitmap

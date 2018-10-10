@@ -10,10 +10,10 @@ import android.graphics.Paint
  */
 class DrawingPoint(x: Float, y: Float,size: Float, p: Paint, batch: Int){
 
-    var xPoint: Float = x
-    var yPoint: Float = y
-    var paint: Paint = p
-    val radius: Float = size
+    private var xPoint: Float = x
+    private var yPoint: Float = y
+    private var paint: Paint = p
+    private val radius: Float = size
     val drawing_batch: Int = batch
 
     fun drawPoint(canvas: Canvas){
